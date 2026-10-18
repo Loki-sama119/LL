@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'com.codegym'
+version = '1.0.0'
+
+repositories { mavenCentral() }
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(Javadoc).configureEach { options.encoding = 'UTF-8' }
+
+tasks.register('runDemo', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.codegym.quadratic.Demo'
+}
+
+tasks.register('runSmokeTest', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.codegym.quadratic.QuadraticEquationSmokeTest'
+}
